@@ -1,0 +1,167 @@
+<!-- const http = require('http');
+const fs = require('fs'); // fs = reading and writing files
+const path = require('path'); // path = file and directory paths
+
+const hostname = '127.0.0.1'; // from example, need adjusting?
+const port = 3000; // from example, need adjusting?
+
+const server = http.createServer((req, res) => {
+  if (req.url === '/favicon.ico') { // needed to be added because i'm not sure what favicon.ico is, so when asked i just say to return
+    res.writeHead(204); // "no response"
+    res.end(); // ignores rewuest for favicon.ico
+    return;
+  }
+
+  let filePath = path.join(__dirname, req.url); // absolute file path
+
+  if (fs.statSync(filePath).isDirectory()) { // appends index.html
+    filePath = path.join(filePath, 'index.html');
+  }
+
+  fs.readFile(filePath, (err, data) => { // https://nodejs.org/en/learn/manipulating-files/reading-files-with-nodejs
+    // 404 = not found, 200 = OK
+    if (err) {
+      res.writeHead(404); // needs fixing, spams "null" in console
+      res.end('Not Found');
+    }
+    else {
+      res.writeHead(200);
+      res.end(data);
+    }
+  });
+});
+
+server.listen(port, hostname, () => { // copied from example
+  console.log(`Server running at http://${hostname}:${port}/`); // change if needed
+}); -->
+
+<!-- <!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <title>Mahjong</title>
+  <style>
+    body {
+      align-items: center;
+    }
+
+    #game-board {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+    }
+
+    .card {
+      width: 100px;
+      height: 100px;
+      background: url("back.png") no-repeat;
+      background-size: cover;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="game-board"></div>
+  <button onclick="resetGame()">Play Again</button>
+  <script>
+    const cardImages = ["kazuha.png", "lyney.png", "nahida.png", "raiden.png", "wanderer.png", "xiao.png"];
+    const gameBoard = document.getElementById("game-board");
+    let selectedCards = []; // keep track which cards were selected
+    let matchedPairs = 0; // to track when game ends
+
+    initializeGame();
+
+    function initializeGame() {
+      // Shuffle the cards
+      shuffledCards = shuffle([...cardImages, ...cardImages]);
+
+      // Create card elements and add them to the game board
+      for (let index = 0; index < shuffledCards.length; index++) {
+        const imageName = shuffledCards[index];
+
+        const cardElement = document.createElement("div");
+        cardElement.classList.add("card");
+        cardElement.setAttribute("data-image", imageName);
+        cardElement.addEventListener("click", () => flipCard(cardElement));
+
+        gameBoard.appendChild(cardElement);
+      }
+    }
+
+    function flipCard(card) {
+      if (selectedCards.length < 2) {
+        selectedCards.push(card); // adds card to selectedCards using push()
+        card.style.backgroundImage = `url("${card.dataset.image}")`;
+      }
+
+      if (selectedCards.length === 2) {
+        setTimeout(checkMatch, 1000); // 1000 miliseconds (1 second)
+      }
+    }
+
+    function checkMatch() {
+      const [card1, card2] = selectedCards;
+
+      // checks if card1 and card2 match
+      if (card1.dataset.image === card2.dataset.image) {
+        // if cards match, make them disappear
+        card1.removeEventListener("click", () => flipCard(card1)); // prevents card 1 from being clicked
+        card2.removeEventListener("click", () => flipCard(card2)); // prevents card 2 from being clicked
+        matchedPairs++;
+
+        // when all solved
+        if (matchedPairs === cardImages.length) {
+          alert("Congratulations");
+        }
+      }
+
+      else {
+        // if cards don't match, flip them back
+        card1.style.backgroundImage = 'url("back.png")';
+        card2.style.backgroundImage = 'url("back.png")';
+      }
+
+      selectedCards = []; // resets
+    }
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function resetGame() {
+      gameBoard.innerHTML = '';
+      initializeGame();
+    }
+  </script>
+</body>
+</html> -->
+
+<!--
+Algorithm Ideas:
+- start with 6 small pictures, name each picture, say, pic1.png, pic2.png, etc.
+- have a back card, say back.png
+- if picX.png = picY.png, then make them disappear
+    - else, flip them back
+- reset game when all is clear with a reset button
+
+Functions needed:
+- initializing the game
+    - shuffle cards first
+    - add card to board
+- checking if two match
+    - if 1st chosen card = 2nd chosen card, make them disappear
+    - if 1st chosen card != 2nd chosen card, flip them back to back.png
+    - check if all cards are solved
+        - if the number of matched pairs === number of different cards total, end game
+- shuffling cards (fisher yates method?)
+- resetting game
+    - clear board
+    - go to initialize function
+- flipping card
+    - when a card is clicked, display card
+    - after 2 cards have been clicked, go through the checkMatch function
+
+-->

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <title>Mahjong</title>
+  <style>
+    body {
+      align-items: flex;
+      background-color: #ece6e3;
+    }
+
+    #game-board {
+      display: grid;
+      grid-template-columns: repeat(4, 100px);
+    }
+
+    .card {
+      width: 103px;
+      height: 173px;
+      background: url("back.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      cursor: pointer;
+      transform: scale(0.8);
+    }
+
+    .card[data-image]:not([data-image="back"]) {
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+  </style>
+</head>
+<body>
+  <div id="game-board"></div>
+  <button onclick="resetGame()">Play Again</button>
+  <script src="mahjong.js"></script>
+  <script src="server.js"></script>
+</body>
+</html>
+
+<!--
+Algorithm Ideas:
+- start with 6 small pictures, name each picture, say, pic1.png, pic2.png, etc.
+- have a back card, say back.png
+- if picX.png = picY.png, then make them disappear
+    - else, flip them back
+- reset game when all is clear with a reset button
+
+Functions needed:
+- initializing the game
+    - shuffle cards first
+    - add card to board
+- checking if two match
+    - if 1st chosen card = 2nd chosen card, make them disappear
+    - if 1st chosen card != 2nd chosen card, flip them back to back.png
+    - check if all cards are solved
+        - if the number of matched pairs === number of different cards total, end game
+- shuffling cards (fisher yates method?)
+- resetting game
+    - clear board
+    - go to initialize function
+- flipping card
+    - when a card is clicked, display card
+    - after 2 cards have been clicked, go through the checkMatch function
+
+-->
