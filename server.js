@@ -8,11 +8,10 @@ const wss = new WebSocket.Server({ server });
 
 app.use(express.static(__dirname));
 
-// WebSocket server
 wss.on('connection', (ws) => {
   console.log('Player connected');
 
-  // Broadcast incoming messages to all clients
+  // broadcast incoming messages to all clients
   ws.on('message', (message) => {
     wss.clients.forEach((client) => {
       if (client !== ws && client.readyState === WebSocket.OPEN) {
@@ -21,7 +20,7 @@ wss.on('connection', (ws) => {
     });
   });
 
-  // Handle disconnect
+  // handle disconnect
   ws.on('close', () => {
     console.log('Player disconnected');
   });

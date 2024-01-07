@@ -71,7 +71,7 @@ function resetGame() {
   initializeGame();
 }
 
-// Listen for messages from the other player
+// listen for messages from the other player
 socket.addEventListener('message', (event) => {
   const data = JSON.parse(event.data);
 
